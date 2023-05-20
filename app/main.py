@@ -19,11 +19,12 @@ def read_root():
     try:
       response = openai.ChatCompletion.create(
           model="gpt-3.5-turbo",      # モデル
-          max_tokens=50,              # 生成する文章の最大単語数
+          max_tokens=150,              # 生成する文章の最大単語数
           n=1,                        # いくつの返答を生成するか
           stop=None,                  # 指定した単語が出現した場合、文章生成を打ち切る
           temperature=0.8,            # 出力する単語のランダム性（0から2の範囲） 0であれば毎回返答内容固定
-          messages=get_message_second(),     # プロンプト
+          messages=get_message_second(),  # プロンプト
+          timeout=60,                 # タイムアウト時間
       )
       response_raw_text = response.choices[0].message.content
       response_text = OpenaiResponseText.from_raw_text(response_raw_text)
