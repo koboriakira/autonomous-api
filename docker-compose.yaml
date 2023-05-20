@@ -8,3 +8,5 @@ services:
     build: .
     ports:
       - 5020:8080
+    env_file:
+      - .env
