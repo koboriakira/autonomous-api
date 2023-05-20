@@ -1,0 +1,10 @@
+version: "3.0"
+
+services:
+  api:
+    container_name: "autonomous-api"
+    volumes:
+      - ./app:/var/www
+    build: .
+    ports:
+      - 5020:8080
