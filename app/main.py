@@ -11,6 +11,7 @@ from message_sample_second import get_message_second
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
+
 app = FastAPI()
 
 
@@ -22,13 +23,18 @@ def read_root():
           max_tokens=150,              # 生成する文章の最大単語数
           n=1,                        # いくつの返答を生成するか
           stop=None,                  # 指定した単語が出現した場合、文章生成を打ち切る
-          temperature=0.8,            # 出力する単語のランダム性（0から2の範囲） 0であれば毎回返答内容固定
+          temperature=1.3,            # 出力する単語のランダム性（0から2の範囲） 0であれば毎回返答内容固定
           messages=get_message_second(),  # プロンプト
           timeout=60,                 # タイムアウト時間
       )
       response_raw_text = response.choices[0].message.content
       response_text = OpenaiResponseText.from_raw_text(response_raw_text)
-      return response_text.to_json()
+      data = response_text.to_json()
+      if os.getenv("BOT_USER_OAUTH_TOKEN") is not None:
+        from slack_sdk.web.client import WebClient
+        slackbot = WebClient(token=os.getenv("BOT_USER_OAUTH_TOKEN"))
+        slackbot.chat_postMessage(channel="#openai", text=data["result"])
+      return data
     except RateLimitError as e:
       return {
         "result": None,
