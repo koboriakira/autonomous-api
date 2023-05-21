@@ -46,7 +46,7 @@ class PromptTest(TestCase):
             "n": 1,
             "stop": None,
             "temperature": 1.3,
-            "timeout": 60,
+            "timeout": 10,
             "messages": expected_messages,
         }
         self.assertEqual(actual["model"], expected["model"])
