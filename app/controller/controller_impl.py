@@ -18,6 +18,7 @@ class ControllerImpl(Controller):
         response_raw_text = response.choices[0].message.content
         response_text = OpenaiResponseText.from_raw_text(response_raw_text)
         json_data = response_text.to_json()
+        # FIXME: slack_controllerに分けて、main.pyで呼び出すようにする
         if os.getenv("BOT_USER_OAUTH_TOKEN") is not None:
           from slack_sdk.web.client import WebClient
           slackbot = WebClient(token=os.getenv("BOT_USER_OAUTH_TOKEN"))
@@ -29,6 +30,3 @@ class ControllerImpl(Controller):
       except Exception as e:
         error = Error(type=ErrorType.UNKNOWN_ERROR, message=str(e))
         return Response(error=error, raw_data=response_raw_text)
-
-    def healthcheck(self):
-      return Response(data={"status": "ok"})

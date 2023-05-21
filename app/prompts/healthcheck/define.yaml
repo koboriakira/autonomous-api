@@ -1,0 +1,8 @@
+model: "gpt-3.5-turbo"
+max_tokens: 20
+temperature: 0
+timeout: 20
+prompt:
+  system: |-
+    「{result: ok}」と出力してください。
+  input: null

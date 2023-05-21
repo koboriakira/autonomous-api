@@ -14,14 +14,9 @@ app = FastAPI()
 
 @app.get("/")
 def read_root(query: Optional[str] = None):
-    controller: Controller = ControllerImpl("sample_one")
+    controller: Controller = ControllerImpl("healthcheck")
     return controller.handle()
 
-
-@app.get("/healthcheck/")
-def read_item(query: Optional[str] = None):
-    controller: Controller = ControllerImpl("healthcheck")
-    return controller.healthcheck()
 
 
 @app.get("/sample_one/")
