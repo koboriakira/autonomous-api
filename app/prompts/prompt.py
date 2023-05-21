@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Any
 import yaml
 import os
+import json
 
 DIR_NAME = os.path.dirname(__file__)
 INITIAL = {
@@ -28,11 +29,13 @@ class Prompt():
             raise ValueError("temperature must be between 0 and 2")
 
 
-    @staticmethod
-    def get_chat_completion_args() -> 'Prompt':
-        with open(DIR_NAME + '/sample_one/define.yaml') as file:
+    @classmethod
+    def get_chat_completion_args(cls, category: str) -> 'Prompt':
+        "${category}"
+        with open(f'%s/%s/define.yaml' % (DIR_NAME, category)) as file:
             obj = yaml.safe_load(file)
-            system_message: str = obj["prompt"]["system"]
+            system_message: str = obj["prompt"]["system"] + \
+                "\n\n" + cls.get_inout_example(category)
             return Prompt(
                 messages=[
                     {
@@ -47,6 +50,21 @@ class Prompt():
                 temperature=obj["temperature"] if "temperature" in obj else INITIAL["temperature"],
                 timeout=obj["timeout"] if "timeout" in obj else INITIAL["timeout"],
             )
+
+    @classmethod
+    def get_inout_example(cls, category: str) -> str:
+        with open(f'%s/%s/sample.yaml' % (DIR_NAME, category)) as file:
+            obj: list[dict] = yaml.safe_load(file)
+            result = ""
+            for idx, item in enumerate(obj):
+                if "input" in item:
+                    pass
+                if "output" in item:
+                    result += f"\n## 出力例{idx+1}\n\n"
+                    result += json.dumps(item["output"], ensure_ascii=False)
+                    result += "\n"
+            result = result.strip()
+            return result
 
     def to_dict(self) -> dict:
         return {

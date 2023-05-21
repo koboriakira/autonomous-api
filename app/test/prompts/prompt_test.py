@@ -2,10 +2,9 @@ from unittest import TestCase
 from prompts.prompt import Prompt
 
 class PromptTest(TestCase):
-    def test_yamlファイルを変換する(self):
-        actual = Prompt.get_chat_completion_args().to_dict()
+    def test_define_yamlを変換する(self):
+        actual = Prompt.get_chat_completion_args("sample_one").to_dict()
 
-        print(actual["messages"])
         expected_messages = [
             {
                 "role": "system",
@@ -30,18 +29,17 @@ class PromptTest(TestCase):
 
 ## 出力例1
 
-{ "result": "今日も開発をがんばりましょう！" }
+{"result": "今日も開発をがんばりましょう！"}
 
 ## 出力例2
 
-{ "result": "素晴らしいプロダクトが開発できますように！" }
+{"result": "素晴らしいプロダクトが開発できますように！"}
 
 ## 出力例3
 
-{ "result": "あなたなら難しい設計もできるはずです！" }"""
+{"result": "あなたなら難しい設計もできるはずです！"}"""
             }
         ]
-        print(expected_messages)
         expected = {
             "model": "gpt-3.5-turbo",
             "max_tokens": 150,
@@ -58,3 +56,19 @@ class PromptTest(TestCase):
         self.assertEqual(actual["temperature"], expected["temperature"])
         self.assertEqual(actual["timeout"], expected["timeout"])
         self.assertEqual(actual["messages"], expected["messages"])
+
+    def test_sample_yamlを変換する(self):
+        actual = Prompt.get_inout_example("sample_one")
+        expected = """## 出力例1
+
+{"result": "今日も開発をがんばりましょう！"}
+
+## 出力例2
+
+{"result": "素晴らしいプロダクトが開発できますように！"}
+
+## 出力例3
+
+{"result": "あなたなら難しい設計もできるはずです！"}"""
+        print(actual)
+        self.assertEqual(actual, expected)
