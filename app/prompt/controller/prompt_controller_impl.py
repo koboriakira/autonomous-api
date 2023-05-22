@@ -1,13 +1,14 @@
-from domain.controller.controller import Controller
+from prompt.domain.controller.prompt_controller import PromptController
 import openai
 import os
 from openai_response_text import OpenaiResponseText
 from openai.error import RateLimitError
-from domain.interface.gateway.dto.response import Response, Error, ErrorType
+from common.dto.response import Response, Error, ErrorType
 from prompt.domain.service.prompt_service import PromptService
 from prompt.domain.service.prompt_service_builder import PromptServiceBuilder
 
-class ControllerImpl(Controller):
+
+class PromptControllerImpl(PromptController):
     _prompt_service: PromptService
 
     def __init__(self, category: str):

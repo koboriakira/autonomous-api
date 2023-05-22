@@ -2,9 +2,8 @@ from typing import Optional
 from fastapi import FastAPI
 import openai
 import os
-from domain.controller.controller import Controller
-from controller.controller_impl import ControllerImpl
-
+from prompt.domain.controller.prompt_controller import PromptController
+from prompt.controller.prompt_controller_impl import PromptControllerImpl
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
@@ -14,14 +13,15 @@ app = FastAPI()
 
 @app.get("/")
 def read_root(query: Optional[str] = None):
-    controller: Controller = ControllerImpl("healthcheck")
+    controller: PromptController = PromptControllerImpl(
+        "healthcheck")
     return controller.handle()
 
 
 
 @app.get("/sample_one/")
 def read_item(query: Optional[str] = None):
-    controller: Controller = ControllerImpl("sample_one")
+    controller: PromptController = PromptControllerImpl("sample_one")
     return controller.handle()
 
 
