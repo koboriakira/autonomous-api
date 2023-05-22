@@ -2,13 +2,13 @@ from prompt.domain.service.prompt_service import PromptService
 from prompt.domain.model.prompt import Prompt
 from util.yaml_loader import YamlLoader
 import json
-from typing import Any
+from typing import Any, Optional
 
 class PromptServiceV2(PromptService):
 
-
-    def __init__(self, category: str):
+    def __init__(self, category: str, user_content: str = ""):
         self.category = category
+        self.user_content = user_content
 
     def create_prompt(self) -> Prompt:
         # yamlファイルをロード
@@ -23,7 +23,7 @@ class PromptServiceV2(PromptService):
         temperature = define_data["temperature"] if "temperature" in define_data else None
         timeout = define_data["timeout"] if "timeout" in define_data else None
 
-        # messageを定義
+        # プロンプトにあたるsystemのmessageを定義
         outline = self._create_outline(define_data)
         input_format = self._create_input_format(sample_data)
         output_format = self._create_output_format(sample_data)
@@ -31,13 +31,20 @@ class PromptServiceV2(PromptService):
         inout_sample = self._create_inout_sample(sample_data)
         system_message: str = outline + "\n\n" + input_format + "\n\n" + output_format + "\n\n" + constraint + "\n\n" + inout_sample
 
+        # 引数のmessageを作成
+        messages = []
+        messages.append({
+            "role": "system",
+            "content": system_message
+        })
+        if self.user_content != "":
+            messages.append({
+                "role": "user",
+                "content": self.user_content
+            })
+
         return Prompt.of(
-            messages=[
-                {
-                    "role": "system",
-                    "content": system_message
-                }
-            ],
+            messages=messages,
             model=model,
             max_tokens=max_tokens,
             n=n,

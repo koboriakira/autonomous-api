@@ -3,7 +3,8 @@ from prompt.service.prompt_service_v2 import PromptServiceV2
 
 class PromptServiceV2Test(TestCase):
     def setUp(self) -> None:
-        self.counselling = PromptServiceV2(category="counselling")
+        user_content = "朝起きられません"
+        self.counselling = PromptServiceV2(category="counselling", user_content=user_content)
         return super().setUp()
 
     def test_プロンプトを作成する(self):
@@ -36,7 +37,12 @@ class PromptServiceV2Test(TestCase):
 ## 出力例1
 
 {"result": "寝る前のリラクゼーションはどうでしょうか。リラックスして寝れるかもしれません。"}"""
+            },
+            {
+                "role": "user",
+                "content": "朝起きられません"
             }
+
         ]
         expected = {
             "model": "gpt-3.5-turbo",

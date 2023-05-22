@@ -6,17 +6,20 @@ from openai.error import RateLimitError
 from common.dto.response import Response, Error, ErrorType
 from prompt.domain.service.prompt_service import PromptService
 from prompt.domain.service.prompt_service_builder import PromptServiceBuilder
+from typing import Optional
 
 
 class PromptControllerImpl(PromptController):
-    _prompt_service: PromptService
+    prompt_service: PromptService
 
-    def __init__(self, category: str):
-        self._prompt_service = PromptServiceBuilder().create(category=category)
+    def __init__(self, category: str, user_content: Optional[str] = None):
+        self.prompt_service = PromptServiceBuilder().create(
+            category=category,
+            user_content=user_content)
 
     def handle(self):
       try:
-        params = self._prompt_service.create_prompt()
+        params = self.prompt_service.create_prompt()
         response = openai.ChatCompletion.create(**params.__dict__)
         response_raw_text = response.choices[0].message.content
         response_text = OpenaiResponseText.from_raw_text(response_raw_text)
