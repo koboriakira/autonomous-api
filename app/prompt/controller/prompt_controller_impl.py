@@ -1,6 +1,5 @@
 from prompt.domain.controller.prompt_controller import PromptController
 import openai
-import os
 from openai_response_text import OpenaiResponseText
 from openai.error import RateLimitError
 from common.dto.response import Response, Error, ErrorType
@@ -20,7 +19,7 @@ class PromptControllerImpl(PromptController):
     async def handle_async(self):
       try:
         params = self.prompt_service.create_prompt()
-        response = openai.ChatCompletion.create(**params.__dict__)
+        response = await openai.ChatCompletion.acreate(**params.__dict__)
         response_raw_text = response.choices[0].message.content
         response_text = OpenaiResponseText.from_raw_text(response_raw_text)
         json_data = response_text.to_json()

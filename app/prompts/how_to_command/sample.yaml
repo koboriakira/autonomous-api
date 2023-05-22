@@ -3,10 +3,10 @@ input:
     description: ユーザが入力したコマンドです。文字列。
 output:
   result:
-    description: 入力されたコマンドの説明。300文字から500文字程度の文字列です。
+    description: 入力されたコマンドの説明。1500文字以下が推奨、最大でも2000文字程度の文字列です。
 samples:
   - input:
-      command: ""
+      command: "diff"
     output:
       result: |-
         diffコマンドは、2つのファイルやディレクトリの間の差分を比較するためのコマンドです。以下に、diffコマンドの使い方と具体的な例を説明します。

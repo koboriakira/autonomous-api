@@ -47,6 +47,7 @@ def counselling(counselling: Counselling):
 
 class HowToCommand(BaseModel):
     command: str
+    is_async: bool = False
 
 @app.post("/how_to_command/")
 async def how_to_command(how_to_command: HowToCommand):
@@ -56,16 +57,23 @@ async def how_to_command(how_to_command: HowToCommand):
     slack_controller = SlackControllerImpl(
         bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
         channel="#openai")
-    asyncio.create_task(execute_how_to_command(
-        prompt_controller, slack_controller))
-    return {"data": "OK"}
+    if how_to_command.is_async:
+        asyncio.create_task(execute_how_to_command(
+            prompt_controller, slack_controller))
+        return {"data": "OK"}
+    else:
+        response = prompt_controller.handle()
+        if response.is_ok():
+            slack_controller.chat_postMessage(response.data["result"])
+        return response
 
 
 async def execute_how_to_command(prompt_controller: PromptController,
                                  slack_controller: SlackController) -> Response:
     try:
         response = await prompt_controller.handle_async()
-        await slack_controller.chat_postMessage(response.data["result"])
+        if response.is_ok():
+            slack_controller.chat_postMessage(response.data["result"])
     except Exception as e:
         # TODO: ログを記録
         return {"error": str(e)}

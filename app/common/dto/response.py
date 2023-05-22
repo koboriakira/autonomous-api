@@ -21,3 +21,6 @@ class Response:
     data: Any = None
     error: Optional[Error] = None
     raw_data: Optional[str] = None
+
+    def is_ok(self)-> bool:
+        return self.data is not None and self.error is None

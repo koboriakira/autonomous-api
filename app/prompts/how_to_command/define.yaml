@@ -1,6 +1,6 @@
 version: 2
 model: "gpt-3.5-turbo"
-max_tokens: 500
+max_tokens: 2000
 temperature: 0.5
 timeout: 60
 prompt:
