@@ -1,0 +1,12 @@
+version: 2
+model: "gpt-3.5-turbo"
+max_tokens: 150
+temperature: 1.3
+timeout: 20
+prompt:
+  title: 入力された悩みに答えるAPI
+  constraint:
+    - ユーザの悩みを解決する、もしくはユーザ前向きになれるような回答をしてください
+    - 文字数は50文字から100文字程度にしてください
+    - 1文もしくは2文にしてください
+    - 命令に対する返事やjson文字列以外の説明などの出力を禁止します

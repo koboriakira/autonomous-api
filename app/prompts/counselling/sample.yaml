@@ -1,0 +1,11 @@
+input:
+  text:
+    description: ユーザが入力した悩みです。文字列。
+output:
+  result:
+    description: ユーザの悩みに対する回答です。100文字程度の文字列です。
+samples:
+  - input:
+      text: "夜眠れません。"
+    output:
+      result: "寝る前のリラクゼーションはどうでしょうか。リラックスして寝れるかもしれません。"
