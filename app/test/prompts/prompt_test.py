@@ -58,7 +58,7 @@ class PromptTest(TestCase):
         self.assertEqual(actual["messages"], expected["messages"])
 
     def test_sample_yamlを変換する(self):
-        actual = Prompt.get_inout_example("sample_one")
+        actual = Prompt._get_inout_example("sample_one")
         expected = """## 出力例1
 
 {"result": "今日も開発をがんばりましょう！"}

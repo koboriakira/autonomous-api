@@ -35,7 +35,7 @@ class Prompt():
         with open(f'%s/%s/define.yaml' % (DIR_NAME, category)) as file:
             obj = yaml.safe_load(file)
             system_message: str = obj["prompt"]["system"] + \
-                "\n\n" + cls.get_inout_example(category)
+                "\n\n" + cls._get_inout_example(category)
             return Prompt(
                 messages=[
                     {
@@ -52,7 +52,7 @@ class Prompt():
             )
 
     @classmethod
-    def get_inout_example(cls, category: str) -> str:
+    def _get_inout_example(cls, category: str) -> str:
         with open(f'%s/%s/sample.yaml' % (DIR_NAME, category)) as file:
             obj: list[dict] = yaml.safe_load(file)
             result = ""
