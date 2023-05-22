@@ -12,6 +12,7 @@ class Counselling(BaseModel):
     text: str
 
 
+
 app = FastAPI()
 
 
@@ -36,8 +37,26 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.post("/counselling/")
 def counselling(counselling: Counselling):
-    user_content = counselling.text
-    controller: PromptController = PromptControllerImpl(
-        category="counselling",
-        user_content=user_content)
-    return controller.handle()
+    try:
+        user_content = counselling.text
+        print(user_content)
+        controller: PromptController = PromptControllerImpl(
+            category="counselling",
+            user_content=user_content)
+        return controller.handle()
+    except Exception as e:
+        return {"error": str(e)}
+
+
+class HowToCommand(BaseModel):
+    command: str
+
+@app.post("/how_to_command/")
+def how_to_command(how_to_command: HowToCommand):
+    try:
+        controller: PromptController = PromptControllerImpl(
+            category="how_to_command",
+            user_content=how_to_command.command)
+        return controller.handle()
+    except Exception as e:
+        return {"error": str(e)}
