@@ -1,10 +1,13 @@
 from unittest import TestCase
-from prompts.prompt import Prompt
+from prompt.service.prompt_service_v1 import PromptServiceV1
 
-class PromptTest(TestCase):
+class PromptServiceV1Test(TestCase):
+    def setUp(self) -> None:
+        self.sample_one = PromptServiceV1(category="sample_one")
+        return super().setUp()
+
     def test_define_yamlを変換する(self):
-        actual = Prompt.get_chat_completion_args("sample_one").to_dict()
-
+        actual = self.sample_one.create_prompt().__dict__
         expected_messages = [
             {
                 "role": "system",
@@ -56,19 +59,3 @@ class PromptTest(TestCase):
         self.assertEqual(actual["temperature"], expected["temperature"])
         self.assertEqual(actual["timeout"], expected["timeout"])
         self.assertEqual(actual["messages"], expected["messages"])
-
-    def test_sample_yamlを変換する(self):
-        actual = Prompt._get_inout_example("sample_one")
-        expected = """## 出力例1
-
-{"result": "今日も開発をがんばりましょう！"}
-
-## 出力例2
-
-{"result": "素晴らしいプロダクトが開発できますように！"}
-
-## 出力例3
-
-{"result": "あなたなら難しい設計もできるはずです！"}"""
-        print(actual)
-        self.assertEqual(actual, expected)

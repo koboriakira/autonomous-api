@@ -4,17 +4,19 @@ import os
 from openai_response_text import OpenaiResponseText
 from openai.error import RateLimitError
 from domain.interface.gateway.dto.response import Response, Error, ErrorType
-from prompts.prompt import Prompt
-
+from prompt.domain.service.prompt_service import PromptService
+from prompt.domain.service.prompt_service_builder import PromptServiceBuilder
 
 class ControllerImpl(Controller):
+    _prompt_service: PromptService
+
     def __init__(self, category: str):
-        self._category = category
+        self._prompt_service = PromptServiceBuilder().create(category=category)
 
     def handle(self):
       try:
-        params = Prompt.get_chat_completion_args(self._category).to_dict()
-        response = openai.ChatCompletion.create(**params)
+        params = self._prompt_service.create_prompt()
+        response = openai.ChatCompletion.create(**params.__dict__)
         response_raw_text = response.choices[0].message.content
         response_text = OpenaiResponseText.from_raw_text(response_raw_text)
         json_data = response_text.to_json()
