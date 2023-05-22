@@ -3,8 +3,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 import openai
 import os
+import asyncio
 from prompt.domain.controller.prompt_controller import PromptController
 from prompt.controller.prompt_controller_impl import PromptControllerImpl
+from resolver.domain.controller.slack_controller import SlackController
+from resolver.controller.slack_controller_impl import SlackControllerImpl
+from common.dto.response import Response
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
@@ -19,30 +23,23 @@ app = FastAPI()
 
 @app.get("/")
 def read_root(query: Optional[str] = None):
-    controller: PromptController = PromptControllerImpl(
-        "healthcheck")
+    controller = PromptControllerImpl("healthcheck")
     return controller.handle()
 
 
 
 @app.get("/sample_one/")
 def read_item(query: Optional[str] = None):
-    controller: PromptController = PromptControllerImpl("sample_one")
+    controller = PromptControllerImpl("sample_one")
     return controller.handle()
 
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
 
 @app.post("/counselling/")
 def counselling(counselling: Counselling):
     try:
-        user_content = counselling.text
-        print(user_content)
         controller: PromptController = PromptControllerImpl(
             category="counselling",
-            user_content=user_content)
+            user_content=counselling.text)
         return controller.handle()
     except Exception as e:
         return {"error": str(e)}
@@ -52,11 +49,27 @@ class HowToCommand(BaseModel):
     command: str
 
 @app.post("/how_to_command/")
-def how_to_command(how_to_command: HowToCommand):
+async def how_to_command(how_to_command: HowToCommand):
+    prompt_controller: PromptController = PromptControllerImpl(
+        category="how_to_command",
+        user_content=how_to_command.command)
+    slack_controller = SlackControllerImpl(
+        bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
+        channel="#openai")
+    asyncio.create_task(execute_how_to_command(
+        prompt_controller, slack_controller))
+    return {"data": "OK"}
+
+
+async def execute_how_to_command(prompt_controller: PromptController,
+                                 slack_controller: SlackController) -> Response:
     try:
-        controller: PromptController = PromptControllerImpl(
-            category="how_to_command",
-            user_content=how_to_command.command)
-        return controller.handle()
+        response = await prompt_controller.handle_async()
+        await slack_controller.chat_postMessage(response.data["result"])
     except Exception as e:
+        # TODO: ログを記録
         return {"error": str(e)}
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: Optional[str] = None):
+    return {"item_id": item_id, "q": q}
