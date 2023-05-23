@@ -4,7 +4,7 @@ services:
   api:
     container_name: "autonomous-api"
     volumes:
-      - ./app:/var/www
+      - .:/var/www/
     build: .
     ports:
       - 5020:8080
