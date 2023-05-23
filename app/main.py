@@ -9,6 +9,9 @@ from prompt.controller.prompt_controller_impl import PromptControllerImpl
 from resolver.domain.controller.slack_controller import SlackController
 from resolver.controller.slack_controller_impl import SlackControllerImpl
 from common.dto.response import Response
+from util.logger import get_logger
+logger = get_logger(__name__)
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 

@@ -1,6 +1,7 @@
 from resolver.domain.controller.slack_controller import SlackController
 from slack_sdk.web.client import WebClient
-
+from util.logger import get_logger
+logger = get_logger(__name__)
 
 class SlackControllerImpl(SlackController):
 
@@ -9,6 +10,7 @@ class SlackControllerImpl(SlackController):
         self.channel = channel
 
     def chat_postMessage(self, text: str) -> bool:
+        logger.info(f"SlackControllerImpl.chat_postMessage: {text}")
         self.slackbot.chat_postMessage(
             channel=self.channel,
             text=text)
