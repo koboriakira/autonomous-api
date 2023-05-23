@@ -1,5 +1,6 @@
 import argparse
-from app.cli.sub_command import SubCommand
+from cli.sub_command import SubCommand
+from cli.option import Option
 
 def get_args():
   parser = argparse.ArgumentParser()
@@ -18,4 +19,5 @@ def execute():
     if hasattr(args, 'sub_command'):
         sub_command = SubCommand(args.sub_command)
         print(sub_command)
-    print(args.command)
+    option = Option.from_args(args)
+    print(option)
