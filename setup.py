@@ -10,6 +10,6 @@ setup(
     packages=find_packages(),
     entry_points="""
         [console_scripts]
-        autonomous-api = app.cli:execute
+        autonomous-api = app.cli.main:execute
     """
 )
