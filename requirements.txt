@@ -3,3 +3,5 @@ uvicorn==0.22.0
 openai==0.27.6
 slack_sdk==3.21.3
 PyYAML==6.0
+pytest==7.3.1
+pytest-watch==4.2.0
