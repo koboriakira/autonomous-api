@@ -1,6 +1,10 @@
 import logging
 from logging import Logger
+import os
+import pathlib
 
+PROJECT_ROOT_PATH = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
 
 logger = logging.getLogger("logger")  # logger名loggerを取得
 logger.setLevel(logging.DEBUG)  # loggerとしてはDEBUGで
@@ -11,8 +15,12 @@ handler1.setFormatter(logging.Formatter(
     "%(asctime)s %(levelname)8s %(message)s"))
 
 # handler2を作成: ファイル出力
-handler2 = logging.FileHandler(filename="test.log")  # handler2はファイル出力
-# handler2.setLevel(logging.WARN)  # handler2はLevel.WARN以上
+log_file_path = f'%s/test.log' % PROJECT_ROOT_PATH
+print(log_file_path)
+if not os.path.exists(log_file_path):
+    pathlib.Path(log_file_path).touch()
+handler2 = logging.FileHandler(filename=log_file_path)  # handler2はファイル出力
+handler2.setLevel(logging.INFO)  # handler2はLevel.ERROR以上
 handler2.setFormatter(logging.Formatter(
     "%(asctime)s %(levelname)8s %(message)s"))
 

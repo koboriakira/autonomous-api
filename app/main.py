@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 import openai
 import os
-import asyncio
 from app.prompt.domain.controller.prompt_controller import PromptController
 from app.prompt.controller.prompt_controller_impl import PromptControllerImpl
 from app.resolver.domain.controller.slack_controller import SlackController
@@ -19,41 +18,47 @@ class CommandRequest(BaseModel):
     request: dict
 
 
-
 app = FastAPI()
 
 
-
 @app.get("/")
-def read_root(query: Optional[str] = None):
-    controller = PromptControllerImpl("healthcheck")
-    return controller.handle()
-
-
-@app.post("/{category}/")
-async def command(category: str, commandRequest: CommandRequest):
-    logger.info(f'command: %s' % category)
-    request = commandRequest.request
-    user_content = request["user_content"]
-    controller: PromptController = PromptControllerImpl(
-        category=category,
-        user_content=user_content)
+async def read_root():
+    request = {
+        "slack": {
+            "channel": "#openai"
+        }
+    }
+    logger.info("healthcheck!!!")
+    controller = PromptControllerImpl(category="healthcheck")
     slack_controller = SlackControllerImpl(
-        bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
+        bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
         channel=request["slack"]["channel"] if "slack" in request and "channel" in request["slack"] else None)
     api = ApiV1(
         prompt_controller=controller,
         slack_controller=slack_controller)
-    return await api.execute(request)
+    return await api.execute()
 
 
+@app.post("/{category}/")
+async def command(category: str, commandRequest: CommandRequest):
+    version:int = request["version"]
+    match version:
+        case 1:
+            logger.info(f'command: %s' % category)
+            request = commandRequest.request
+            user_content = request["user_content"]
+            controller: PromptController = PromptControllerImpl(
+                category=category,
+                user_content=user_content)
+            slack_controller = SlackControllerImpl(
+                bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
+                channel=request["slack"]["channel"] if "slack" in request and "channel" in request["slack"] else None)
+            api = ApiV1(
+                prompt_controller=controller,
+                slack_controller=slack_controller)
+            return await api.execute()
+        case _:
+            return {"error": "invalid version"}
 
-# @app.post("/{command}/")
-# async def how_to_command(command: str, request: HowToCommandRequest):
-#     api = HowToCommandApi(request)
-#     return await api.execute(request)
-
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: Optional[str] = None):
-#     return {"item_id": item_id, "q": q}
+def _is_async(self, request: dict) -> bool:
+    return "is_async" in request and request["is_async"]

@@ -1,4 +1,8 @@
-.PHONY: test-watch
+.PHONY: cli
+test:
+	@docker compose exec api python -m app.cli.main healthcheck
+
+.PHONY: test
 test:
 	@docker compose exec api python -m pytest
 
