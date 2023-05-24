@@ -1,6 +1,6 @@
-from common.dto.response import Response
-from prompt.domain.controller.prompt_controller import PromptController
-from resolver.domain.controller.slack_controller import SlackController
+from app.common.dto.response import Response
+from app.prompt.domain.controller.prompt_controller import PromptController
+from app.resolver.domain.controller.slack_controller import SlackController
 import asyncio
 from typing import Optional
 

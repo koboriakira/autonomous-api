@@ -1,6 +1,6 @@
 import argparse
-from cli.sub_command import SubCommand
-from cli.option import Option
+from app.cli.sub_command import SubCommand
+from app.cli.option import Option
 
 def get_args():
   parser = argparse.ArgumentParser()

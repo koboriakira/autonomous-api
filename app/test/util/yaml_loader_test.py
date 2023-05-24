@@ -1,5 +1,5 @@
 from unittest import TestCase
-from util.yaml_loader import YamlLoader
+from app.util.yaml_loader import YamlLoader
 
 class YamLoaderTest(TestCase):
     def test_load(self):

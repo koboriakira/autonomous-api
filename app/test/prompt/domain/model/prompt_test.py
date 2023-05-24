@@ -1,5 +1,5 @@
 import unittest
-from prompt.domain.model.prompt import Prompt
+from app.prompt.domain.model.prompt import Prompt
 
 class TestPrompt(unittest.TestCase):
     def test_post_init(self):

@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from common.dto.response import Response
+from app.common.dto.response import Response
 
 class PromptController(metaclass=ABCMeta):
     @abstractmethod

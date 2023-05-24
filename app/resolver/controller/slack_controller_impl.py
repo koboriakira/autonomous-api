@@ -1,6 +1,6 @@
-from resolver.domain.controller.slack_controller import SlackController
 from slack_sdk.web.client import WebClient
-from util.logger import get_logger
+from app.resolver.domain.controller.slack_controller import SlackController
+from app.util.logger import get_logger
 logger = get_logger(__name__)
 
 class SlackControllerImpl(SlackController):

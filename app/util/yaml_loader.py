@@ -2,7 +2,7 @@ import os
 import yaml
 
 class YamlLoader:
-    PROMPT_DIR_PATH = 'prompts'
+    PROMPT_DIR_PATH = 'app/prompts'
     FILE_PATH_DEFINE_YAML = 'define.yaml'
     FILE_PATH_SAMPLE_YAML = 'sample.yaml'
     @classmethod

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from prompt.service.prompt_service_v2 import PromptServiceV2
+from app.prompt.service.prompt_service_v2 import PromptServiceV2
 
 class PromptServiceV2Test(TestCase):
     def setUp(self) -> None:

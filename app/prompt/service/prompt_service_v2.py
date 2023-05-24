@@ -1,6 +1,6 @@
-from prompt.domain.service.prompt_service import PromptService
-from prompt.domain.model.prompt import Prompt
-from util.yaml_loader import YamlLoader
+from app.prompt.domain.service.prompt_service import PromptService
+from app.prompt.domain.model.prompt import Prompt
+from app.util.yaml_loader import YamlLoader
 import json
 from typing import Any, Optional
 

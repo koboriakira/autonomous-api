@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir --upgrade -r /tmp/requirements.txt
 
 COPY ./app/ /var/www/app/
 
-WORKDIR /var/www/app
+WORKDIR /var/www
 
 EXPOSE 8080
-CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]

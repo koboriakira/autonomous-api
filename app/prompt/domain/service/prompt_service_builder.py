@@ -1,8 +1,8 @@
-from prompt.domain.dto.prompt_version import PromptVersion
-from prompt.domain.service.prompt_service import PromptService
-from prompt.service.prompt_service_v1 import PromptServiceV1
-from prompt.service.prompt_service_v2 import PromptServiceV2
-from util.yaml_loader import YamlLoader
+from app.prompt.domain.dto.prompt_version import PromptVersion
+from app.prompt.domain.service.prompt_service import PromptService
+from app.prompt.service.prompt_service_v1 import PromptServiceV1
+from app.prompt.service.prompt_service_v2 import PromptServiceV2
+from app.util.yaml_loader import YamlLoader
 
 class PromptServiceBuilder:
     @classmethod
