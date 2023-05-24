@@ -7,10 +7,9 @@ setup(
     author='Kobori Akira',
     author_email='private.beats@gmail.com',
     url='https://github.com/koboriakira/autonomous-api',
-    packages=find_packages(where="app"),
-    package_dir={"": "app"},
+    packages=find_packages(),
     entry_points="""
         [console_scripts]
-        autonomous-api = cli.main:execute
+        autonomous-api = app.cli.cli:execute
     """
 )
