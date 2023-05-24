@@ -35,7 +35,7 @@ def execute():
             controller = PromptControllerImpl(category="healthcheck")
             slack_controller = SlackControllerImpl(
                 bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
-                channel=None)
+                channel="#openai")
             api = ApiV1(
                 prompt_controller=controller,
                 slack_controller=slack_controller)

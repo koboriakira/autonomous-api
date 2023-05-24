@@ -11,5 +11,6 @@ setup(
     entry_points="""
         [console_scripts]
         autonomous-api = app.cli.cli:execute
-    """
+    """,
+    include_package_data=True,
 )

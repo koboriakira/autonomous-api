@@ -1,1 +1,1 @@
-global-include *.yaml
+include app/prompts/healthcheck/*.yaml
