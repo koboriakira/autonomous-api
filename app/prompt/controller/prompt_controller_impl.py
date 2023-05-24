@@ -2,7 +2,7 @@ import openai
 from typing import Optional
 from openai.error import RateLimitError
 from app.prompt.domain.controller.prompt_controller import PromptController
-from app.openai_response_text import OpenaiResponseText
+from app.prompt.domain.model.openai_response_text import OpenaiResponseText
 from app.common.dto.response import Response, Error, ErrorType
 from app.prompt.domain.service.prompt_service import PromptService
 from app.prompt.domain.service.prompt_service_builder import PromptServiceBuilder
