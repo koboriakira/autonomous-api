@@ -1,6 +1,6 @@
 .PHONY: cli
 cli:
-	@docker compose exec api python3 -m app.cli.cli healthcheck
+	@docker compose exec api python3 -m app.cli.cli how_to_command --command wc
 
 .PHONY: test
 test:

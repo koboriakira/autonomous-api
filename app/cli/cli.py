@@ -35,7 +35,8 @@ def execute():
 def _execute_sub(sub_command: SubCommand, option: Option) -> None:
     match sub_command:
         case SubCommand.HEALTHCHECK:
-            controller = PromptControllerImpl(category="healthcheck")
+            controller = PromptControllerImpl(
+                category=SubCommand.HEALTHCHECK.value)
             slack_controller = SlackControllerImpl(
                 bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
                 channel="#openai")
@@ -45,6 +46,21 @@ def _execute_sub(sub_command: SubCommand, option: Option) -> None:
             response = api.execute()
             if response.is_ok():
                 print(response.data["result"])
+        case SubCommand.HOW_TO_COMMAND:
+            controller = PromptControllerImpl(
+                category=SubCommand.HOW_TO_COMMAND.value,
+                user_content=option.command)
+            slack_controller = SlackControllerImpl(
+                bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
+                channel="#openai")
+            api = ApiV1(
+                prompt_controller=controller,
+                slack_controller=slack_controller)
+            response = api.execute()
+            if response.is_ok():
+                print(response.data["result"])
+            else:
+                print(response.error.message)
         case _:
             raise Exception("invalid sub command")
 
