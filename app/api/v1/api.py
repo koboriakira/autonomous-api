@@ -3,6 +3,8 @@ from app.prompt.domain.controller.prompt_controller import PromptController
 from app.resolver.domain.controller.slack_controller import SlackController
 import asyncio
 from typing import Optional
+from app.util.logger import get_logger
+logger = get_logger(__name__)
 
 class ApiV1():
 
@@ -20,12 +22,16 @@ class ApiV1():
         return response
 
     async def execute_async(self) -> Response:
+        logger.debug("execute_async")
         asyncio.create_task(self._execute_async())
         return Response(data="OK")
 
     async def _execute_async(self) -> Response:
+        logger.debug("_execute_async")
         response = await self.prompt_controller.handle_async()
+        logger.debug("_execute_async 2")
         if response.is_ok():
+            logger.debug("chat_postMessage")
             self.chat_postMessage(response.data["result"])
 
     def chat_postMessage(self, text: str) -> None:

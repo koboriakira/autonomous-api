@@ -29,17 +29,24 @@ def execute():
     args = get_args()
     sub_command = SubCommand(args.sub_command)
     option = Option.from_args(args)
+    _execute_sub(sub_command, option)
 
+
+def _execute_sub(sub_command: SubCommand, option: Option) -> None:
     match sub_command:
         case SubCommand.HEALTHCHECK:
             controller = PromptControllerImpl(category="healthcheck")
             slack_controller = SlackControllerImpl(
-                bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
+                bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
                 channel="#openai")
             api = ApiV1(
                 prompt_controller=controller,
                 slack_controller=slack_controller)
-            return api.execute()
+            response = api.execute()
+            if response.is_ok():
+                print(response.data["result"])
+        case _:
+            raise Exception("invalid sub command")
 
 if __name__ == "__main__":
     execute()

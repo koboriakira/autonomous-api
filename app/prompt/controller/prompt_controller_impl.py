@@ -32,10 +32,10 @@ class PromptControllerImpl(PromptController):
         return Response(data=json_data, raw_data=response_raw_text)
       except RateLimitError as e:
         error = Error(type=ErrorType.RATE_LIMIT_ERROR, message=str(e))
-        return Response(error=error, raw_data=response_raw_text)
+        return Response(error=error)
       except Exception as e:
         error = Error(type=ErrorType.UNKNOWN_ERROR, message=str(e))
-        return Response(error=error, raw_data=response_raw_text)
+        return Response(error=error)
 
     def handle(self):
       try:

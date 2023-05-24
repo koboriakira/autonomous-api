@@ -4,7 +4,7 @@ import os
 import pathlib
 
 logger = logging.getLogger("logger")  # logger名loggerを取得
-if os.getenv("IS_DEV") == "local":
+if os.getenv("IS_DEV"):
     PROJECT_ROOT_PATH = os.path.dirname(os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))))
 
@@ -21,7 +21,7 @@ if os.getenv("IS_DEV") == "local":
     if not os.path.exists(log_file_path):
         pathlib.Path(log_file_path).touch()
     handler2 = logging.FileHandler(filename=log_file_path)  # handler2はファイル出力
-    handler2.setLevel(logging.INFO)  # handler2はLevel.ERROR以上
+    handler2.setLevel(logging.DEBUG)  # handler2はLevel.DEBUG以上
     handler2.setFormatter(logging.Formatter(
         "%(asctime)s %(levelname)8s %(message)s"))
 

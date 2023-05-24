@@ -31,8 +31,10 @@ async def read_root():
     logger.info("healthcheck!!!")
     controller = PromptControllerImpl(category="healthcheck")
     slack_controller = SlackControllerImpl(
-        bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
-        channel=request["slack"]["channel"] if "slack" in request and "channel" in request["slack"] else None)
+        bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
+        channel="#openai")
+    if not os.getenv("IS_DEV"):
+        slack_controller = None
     api = ApiV1(
         prompt_controller=controller,
         slack_controller=slack_controller)
@@ -41,24 +43,37 @@ async def read_root():
 
 @app.post("/{category}/")
 async def command(category: str, commandRequest: CommandRequest):
-    version:int = request["version"]
+    request = commandRequest.request
+    version: int = request["version"]
     match version:
         case 1:
             logger.info(f'command: %s' % category)
-            request = commandRequest.request
             user_content = request["user_content"]
             controller: PromptController = PromptControllerImpl(
                 category=category,
                 user_content=user_content)
-            slack_controller = SlackControllerImpl(
-                bot_user_oauth_token=os.getenv("BOT_USER_OAUTH_TOKEN"),
-                channel=request["slack"]["channel"] if "slack" in request and "channel" in request["slack"] else None)
+            slack_controller = _get_slack_controller(request)
+            logger.debug(f'slack_controller: %s' % slack_controller)
             api = ApiV1(
                 prompt_controller=controller,
                 slack_controller=slack_controller)
-            return await api.execute()
+            return await _execute_api_v1(api, request)
         case _:
             return {"error": "invalid version"}
 
-def _is_async(self, request: dict) -> bool:
-    return "is_async" in request and request["is_async"]
+
+async def _execute_api_v1(api: ApiV1, request: dict):
+    if "is_async" in request and request["is_async"]:
+        return await api.execute_async()
+    else:
+        return api.execute()
+
+
+def _get_slack_controller(request: dict) -> Optional[SlackController]:
+    if "slack" in request:
+        slack_request = request["slack"]
+        if "token" in slack_request and "channel" in slack_request:
+            return SlackControllerImpl(
+                bot_user_oauth_token=slack_request["token"],
+                channel=slack_request["channel"])
+    return None
