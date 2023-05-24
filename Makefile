@@ -1,6 +1,6 @@
 .PHONY: test-watch
 test:
-	@docker compose exec api python -m pytest-watch
+	@docker compose exec api python -m pytest
 
 # モジュールをインストールする
 .PHONY: install

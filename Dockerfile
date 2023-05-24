@@ -4,7 +4,6 @@ FROM python:3.10-slim
 COPY ./requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /tmp/requirements.txt
-RUN pip install pytest
 
 COPY ./app/ /var/www/app/
 

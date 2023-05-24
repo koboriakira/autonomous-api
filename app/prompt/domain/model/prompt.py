@@ -17,7 +17,7 @@ class Prompt():
     model: str
     max_tokens: int
     n: int
-    stop: str | None
+    stop: Optional[str]
     temperature: float
     timeout: int
 
