@@ -11,3 +11,9 @@ class Option:
         return Option(
             command=args.command,
         )
+
+    def to_user_content(self) -> dict:
+        result = {}
+        if self.command is not None:
+            result["command"] = self.command
+        return result

@@ -1,9 +1,7 @@
 import argparse
 import openai
 import os
-from app.prompt.domain.controller.prompt_controller import PromptController
 from app.prompt.controller.prompt_controller_impl import PromptControllerImpl
-from app.resolver.domain.controller.slack_controller import SlackController
 from app.resolver.controller.slack_controller_impl import SlackControllerImpl
 from app.api.v1.api import ApiV1
 from app.cli.sub_command import SubCommand
@@ -29,40 +27,25 @@ def execute():
     args = get_args()
     sub_command = SubCommand(args.sub_command)
     option = Option.from_args(args)
-    _execute_sub(sub_command, option)
-
-
-def _execute_sub(sub_command: SubCommand, option: Option) -> None:
-    match sub_command:
-        case SubCommand.HEALTHCHECK:
-            controller = PromptControllerImpl(
-                category=SubCommand.HEALTHCHECK.value)
-            slack_controller = SlackControllerImpl(
-                bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
-                channel="#openai")
-            api = ApiV1(
-                prompt_controller=controller,
+    prompt_controller = sub_command.create_prompt_controller()
+    slack_controller = _get_slack_controller()
+    api = ApiV1(prompt_controller=prompt_controller,
                 slack_controller=slack_controller)
-            response = api.execute()
-            if response.is_ok():
-                print(response.data["result"])
-        case SubCommand.HOW_TO_COMMAND:
-            controller = PromptControllerImpl(
-                category=SubCommand.HOW_TO_COMMAND.value,
-                user_content=option.command)
-            slack_controller = SlackControllerImpl(
-                bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
-                channel="#openai")
-            api = ApiV1(
-                prompt_controller=controller,
-                slack_controller=slack_controller)
-            response = api.execute()
-            if response.is_ok():
-                print(response.data["result"])
-            else:
-                print(response.error.message)
-        case _:
-            raise Exception("invalid sub command")
+    user_content = option.to_user_content()
+    response = api.execute(user_content=user_content)
+    if response.is_ok():
+        print(response.data["result"])
+    else:
+        print(response.error.message)
+
+def _get_slack_controller():
+    if os.getenv("SLACK_BOT_USER_OAUTH_TOKEN") is None:
+        return None
+    if os.getenv("SLACK_CHANNEL") is None:
+        return None
+    return SlackControllerImpl(
+        bot_user_oauth_token=os.getenv("SLACK_BOT_USER_OAUTH_TOKEN"),
+        channel="#" + os.getenv("SLACK_CHANNEL"))
 
 if __name__ == "__main__":
     execute()
