@@ -1,3 +1,7 @@
-- input: null
-  output:
-    result: ok
+output:
+  result:
+    description: okという文字列が入ります
+samples:
+  - input: null
+    output:
+      result: ok

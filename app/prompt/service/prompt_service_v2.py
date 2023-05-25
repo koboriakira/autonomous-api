@@ -3,6 +3,8 @@ from app.prompt.domain.model.prompt import Prompt
 from app.util.yaml_loader import YamlLoader
 import json
 from typing import Any, Optional
+from app.util.logger import get_logger
+logger = get_logger(__name__)
 
 class PromptServiceV2(PromptService):
 
@@ -86,6 +88,8 @@ class PromptServiceV2(PromptService):
         return result.strip()
 
     def _create_input_format(self, sample_data) -> str:
+        if "input" not in sample_data:
+            return ""
         input_formats:dict[str, Any] = sample_data["input"]
         result = "## 入力の形式\n\n"
         for key, format in input_formats.items():
@@ -94,6 +98,8 @@ class PromptServiceV2(PromptService):
         return result.strip()
 
     def _create_output_format(self, sample_data) -> str:
+        if "output" not in sample_data:
+            return ""
         output_formats: dict[str, Any] = sample_data["output"]
         result = "## 出力の形式\n\n"
         for key, format in output_formats.items():

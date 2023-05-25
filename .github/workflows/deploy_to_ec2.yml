@@ -32,6 +32,8 @@ jobs:
       # TODO: DockerイメージをビルドしてDocker Hubにプッシュする
       # その後、Dockerイメージをpullしてrunするようにしてもいいかな
 
+      # ついでにPyPiのパッケージもビルドしてアップロードしたい
+
       - name: rsync
         run: |
           rsync -a ./app/ ec2-user@${{ env.AWS_EC2_IP }}:/home/ec2-user/autonomous-api/app/

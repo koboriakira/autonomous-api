@@ -1,8 +1,10 @@
+version: 2
 model: "gpt-3.5-turbo"
 max_tokens: 20
 temperature: 0
 timeout: 20
 prompt:
-  system: |-
-    「{result: ok}」と出力してください。
-  input: null
+  title: |-
+    {result: "ok"}と出力するAPI"
+  constraint:
+    - '{result: "ok"}と出力してください'
