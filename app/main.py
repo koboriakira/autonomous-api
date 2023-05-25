@@ -48,10 +48,8 @@ async def command(category: str, commandRequest: CommandRequest):
     match version:
         case 1:
             logger.info(f'command: %s' % category)
-            user_content = request["user_content"]
             controller: PromptController = PromptControllerImpl(
-                category=category,
-                user_content=user_content)
+                category=category)
             slack_controller = _get_slack_controller(request)
             logger.debug(f'slack_controller: %s' % slack_controller)
             api = ApiV1(
@@ -63,10 +61,11 @@ async def command(category: str, commandRequest: CommandRequest):
 
 
 async def _execute_api_v1(api: ApiV1, request: dict):
+    user_content: dict = request["user_content"] if "user_content" in request else None
     if "is_async" in request and request["is_async"]:
-        return await api.execute_async()
+        return await api.execute_async(user_content=user_content)
     else:
-        return api.execute()
+        return api.execute(user_content=user_content)
 
 
 def _get_slack_controller(request: dict) -> Optional[SlackController]:

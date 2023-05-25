@@ -14,21 +14,20 @@ class ApiV1():
         self.prompt_controller = prompt_controller
         self.slack_controller = slack_controller
 
-
-    def execute(self) -> Response:
-        response = self.prompt_controller.handle()
+    def execute(self, user_content: Optional[dict]) -> Response:
+        response = self.prompt_controller.handle(user_content=user_content)
         if response.is_ok():
             self.chat_postMessage(response.data["result"])
         return response
 
-    async def execute_async(self) -> Response:
+    async def execute_async(self, user_content: Optional[dict]) -> Response:
         logger.debug("execute_async")
-        asyncio.create_task(self._execute_async())
+        asyncio.create_task(self._execute_async(user_content=user_content))
         return Response(data="OK")
 
-    async def _execute_async(self) -> Response:
+    async def _execute_async(self, user_content: Optional[dict]) -> Response:
         logger.debug("_execute_async")
-        response = await self.prompt_controller.handle_async()
+        response = await self.prompt_controller.handle_async(user_content=user_content)
         logger.debug("_execute_async 2")
         if response.is_ok():
             logger.debug("chat_postMessage")

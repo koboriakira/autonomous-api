@@ -29,6 +29,9 @@ jobs:
           name: id_rsa
           known_hosts: ${{ env.KNOWN_HOSTS }}
 
+      # TODO: DockerイメージをビルドしてDocker Hubにプッシュする
+      # その後、Dockerイメージをpullしてrunするようにしてもいいかな
+
       - name: rsync
         run: |
           rsync -a ./app/ ec2-user@${{ env.AWS_EC2_IP }}:/home/ec2-user/autonomous-api/app/

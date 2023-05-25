@@ -6,11 +6,10 @@ from typing import Any, Optional
 
 class PromptServiceV2(PromptService):
 
-    def __init__(self, category: str, user_content: str = ""):
+    def __init__(self, category: str):
         self.category = category
-        self.user_content = user_content
 
-    def create_prompt(self) -> Prompt:
+    def create_prompt(self, user_content: Optional[dict] = None) -> Prompt:
         # yamlファイルをロード
         define_data = self._load_define()
         sample_data = self._load_sample()
@@ -37,11 +36,9 @@ class PromptServiceV2(PromptService):
             "role": "system",
             "content": system_message
         })
-        if self.user_content != "":
-            messages.append({
-                "role": "user",
-                "content": self.user_content
-            })
+        user_message = self._create_user_content(user_content)
+        if user_message is not None:
+            messages.append(user_message)
 
         return Prompt.of(
             messages=messages,
@@ -52,6 +49,14 @@ class PromptServiceV2(PromptService):
             temperature=temperature,
             timeout=timeout
         )
+
+    def _create_user_content(self, user_content: str) -> Optional[dict[str, Any]]:
+        if user_content == "":
+            return None
+        return {
+            "role": "user",
+            "content": json.dumps(user_content, ensure_ascii=False)
+        }
 
     def _create_inout_sample(self, sample_data) -> str:
         result = ""

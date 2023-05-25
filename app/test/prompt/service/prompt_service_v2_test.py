@@ -3,12 +3,15 @@ from app.prompt.service.prompt_service_v2 import PromptServiceV2
 
 class PromptServiceV2Test(TestCase):
     def setUp(self) -> None:
-        user_content = "朝起きられません"
-        self.counselling = PromptServiceV2(category="counselling", user_content=user_content)
+        self.counselling = PromptServiceV2(category="counselling")
         return super().setUp()
 
     def test_プロンプトを作成する(self):
-        actual = self.counselling.create_prompt().__dict__
+        user_content = {
+            "text": "朝起きられません"
+        }
+        actual = self.counselling.create_prompt(
+            user_content=user_content).__dict__
         expected_messages = [
             {
                 "role": "system",
@@ -40,7 +43,7 @@ class PromptServiceV2Test(TestCase):
             },
             {
                 "role": "user",
-                "content": "朝起きられません"
+                "content": """{"text": "朝起きられません"}"""
             }
 
         ]
@@ -109,5 +112,14 @@ class PromptServiceV2Test(TestCase):
 ## 出力例1
 
 {"result": "寝る前のリラクゼーションはどうでしょうか。リラックスして寝れるかもしれません。"}"""
+        print(actual)
+        self.assertEqual(actual, expected)
+
+    def test_ユーザ側の入力を作成する(self):
+        user_content = {
+            "text": "朝起きられません"
+        }
+        actual = self.counselling._create_user_content(user_content)
+        expected = {'role': 'user', 'content': '{"text": "朝起きられません"}'}
         print(actual)
         self.assertEqual(actual, expected)

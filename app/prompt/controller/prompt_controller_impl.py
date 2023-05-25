@@ -14,15 +14,13 @@ class PromptControllerImpl(PromptController):
     prompt_service: PromptService
     unique_id: int
 
-    def __init__(self, category: str, user_content: Optional[str] = None):
-        self.prompt_service = PromptServiceBuilder().create(
-            category=category,
-            user_content=user_content)
+    def __init__(self, category: str):
+        self.prompt_service = PromptServiceBuilder().create(category=category)
         self.unique_id = id(self)
 
-    async def handle_async(self):
+    async def handle_async(self, user_content: Optional[dict] = None):
       try:
-        params = self.prompt_service.create_prompt()
+        params = self.prompt_service.create_prompt(user_content=user_content)
         logger.info("[%s]execute openai.ChatCompletion.acreate" % self.unique_id)
         response = await openai.ChatCompletion.acreate(**params.__dict__)
         response_raw_text = response.choices[0].message.content
@@ -37,9 +35,9 @@ class PromptControllerImpl(PromptController):
         error = Error(type=ErrorType.UNKNOWN_ERROR, message=str(e))
         return Response(error=error)
 
-    def handle(self):
+    def handle(self, user_content: Optional[dict] = None):
       try:
-        params = self.prompt_service.create_prompt()
+        params = self.prompt_service.create_prompt(user_content=user_content)
         logger.info("[%s]execute openai.ChatCompletion.create" %
                     self.unique_id)
         response = openai.ChatCompletion.create(**params.__dict__)
