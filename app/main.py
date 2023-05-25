@@ -13,9 +13,17 @@ logger = get_logger(__name__)
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+class SlackRequest(BaseModel):
+    token: str
+    channel: str
 
 class CommandRequest(BaseModel):
-    request: dict
+    version: int = Field(..., example=1)
+    user_content: Optional[dict] = Field(None, example={"text": "hello"})
+    is_async: Optional[bool] = Field(False, example=True)
+    slack: Optional[SlackRequest] = Field(None,
+                                          example={"token": "xoxb-xxxx",
+                                                   "channel": "#channel"})
 
 
 app = FastAPI()
@@ -42,15 +50,13 @@ async def read_root():
 
 
 @app.post("/{category}/")
-async def command(category: str, commandRequest: CommandRequest):
-    request = commandRequest.request
-    version: int = request["version"]
-    match version:
+async def command(category: str, request: CommandRequest):
+    match request.version:
         case 1:
             logger.info(f'command: %s' % category)
             controller: PromptController = PromptControllerImpl(
                 category=category)
-            slack_controller = _get_slack_controller(request)
+            slack_controller = _get_slack_controller(request.slack)
             logger.debug(f'slack_controller: %s' % slack_controller)
             api = ApiV1(
                 prompt_controller=controller,
@@ -60,12 +66,11 @@ async def command(category: str, commandRequest: CommandRequest):
             return {"error": "invalid version"}
 
 
-async def _execute_api_v1(api: ApiV1, request: dict):
-    user_content: dict = request["user_content"] if "user_content" in request else None
-    if "is_async" in request and request["is_async"]:
-        return await api.execute_async(user_content=user_content)
+async def _execute_api_v1(api: ApiV1, request: CommandRequest):
+    if request.is_async:
+        return await api.execute_async(user_content=request.user_content)
     else:
-        return api.execute(user_content=user_content)
+        return api.execute(user_content=request.user_content)
 
 
 def _get_slack_controller(request: dict) -> Optional[SlackController]:

@@ -1,9 +1,0 @@
-- input: null
-  output:
-    result: "今日も開発をがんばりましょう！"
-- input:
-  output:
-    result: "素晴らしいプロダクトが開発できますように！"
-- input:
-  output:
-    result: "あなたなら難しい設計もできるはずです！"
