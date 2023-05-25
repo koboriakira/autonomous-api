@@ -38,7 +38,7 @@ async def read_root():
     api = ApiV1(
         prompt_controller=controller,
         slack_controller=slack_controller)
-    return await api.execute()
+    return await _execute_api_v1(api, request)
 
 
 @app.post("/{category}/")
