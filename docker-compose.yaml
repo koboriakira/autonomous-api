@@ -10,3 +10,10 @@ services:
       - 5020:8080
     env_file:
       - .env
+    networks:
+      - koboriakira-docker-network
+
+networks:
+  koboriakira-docker-network:
+    driver: bridge
+    external: true
