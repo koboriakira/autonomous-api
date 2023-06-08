@@ -51,7 +51,7 @@ async def command(category: str, request: CommandRequest):
             logger.info(f'command: %s' % category)
             controller: PromptController = PromptControllerImpl(
                 category=category)
-            slack_controller = _get_slack_controller(request.slack)
+            slack_controller = _get_slack_controller(request)
             logger.debug(f'slack_controller: %s' % slack_controller)
             api = ApiV1(
                 prompt_controller=controller,
@@ -62,7 +62,7 @@ async def command(category: str, request: CommandRequest):
 
 
 async def _execute_api_v1(api: ApiV1, request: CommandRequest):
-    if request.is_async:
+    if "is_async" in request and request.is_async:
         return await api.execute_async(user_content=request.user_content)
     else:
         return api.execute(user_content=request.user_content)
