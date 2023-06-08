@@ -5,6 +5,6 @@ temperature: 0
 timeout: 20
 prompt:
   title: |-
-    {result: "ok"}と出力するAPI"
+    ```{result: "ok"}```と出力するAPI"
   constraint:
     - '{result: "ok"}と出力してください'

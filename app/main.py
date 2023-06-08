@@ -30,12 +30,7 @@ app = FastAPI()
 
 
 @app.get("/")
-async def read_root():
-    request = {
-        "slack": {
-            "channel": "#openai"
-        }
-    }
+def read_root():
     logger.info("healthcheck!!!")
     controller = PromptControllerImpl(category="healthcheck")
     slack_controller = SlackControllerImpl(
@@ -46,7 +41,7 @@ async def read_root():
     api = ApiV1(
         prompt_controller=controller,
         slack_controller=slack_controller)
-    return await _execute_api_v1(api, request)
+    return api.execute(user_content=None)
 
 
 @app.post("/{category}/")
