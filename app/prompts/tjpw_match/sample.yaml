@@ -1,5 +1,7 @@
 input:
-  text:
+  displayName:
+    description: 大会もしくは大会の中の1つの試合のタイトルが書かれます。
+  description:
     description: 試合情報のテキストです。改行をふくみます。
 output:
   result:
@@ -12,7 +14,8 @@ output:
 
 samples:
   - input:
-      text: |-
+      displayName: "ALL RISE '22"
+      description: |-
         ■対戦カード
         ○オープニングマッチ
         鈴芽　vs　長谷川美子
@@ -25,3 +28,8 @@ samples:
         ※第11代王者は初防衛戦。
     output:
       result: '[{\"order\":1,\"title\":\"オープニングマッチ\",\"original_title\":\"オープニングマッチ\",\"wrestlers\":[\"鈴芽\",\"長谷川美子\"]},{\"order\":2,\"title\":\"第二試合\",\"original_title\":\"第二試合\",\"wrestlers\":[\"中島翔子\",\"ハイパーミサヲ\",\"鳥喰かや\",\"原宿ぽむ\",\"猫はるな\",\"桐生真弥\"]},{\"order\":8,\"title\":\"プリンセス・オブ・プリンセス選手権試合\",\"original_title\":\"メインイベント　プリンセス・オブ・プリンセス選手権試合　30分一本勝負\",\"wrestlers\":[\"坂崎ユカ\",\"ビリー・スタークス\"]}]'
+  - input:
+      displayName: "第1回東京プリンセスカップ準決勝 中島翔子 vs 山下実優"
+      description: "第2試合 (2014.8.2 東京・新木場1stRING「夏ダカラ！ 新木場！」)"
+    output:
+      result: '[{\"order\":2,\"title\":\"第1回東京プリンセスカップ準決勝\",\"original_title\":\"第1回東京プリンセスカップ準決勝 中島翔子 vs 山下実優\",\"wrestlers\":[\"中島翔子\",\"山下実優\"]}]'
