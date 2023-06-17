@@ -61,6 +61,9 @@ class PromptServiceV2(PromptService):
         }
 
     def _create_inout_sample(self, sample_data) -> str:
+        if "samples" not in sample_data:
+            return ""
+
         result = ""
         for idx, item in enumerate(sample_data["samples"]):
             if "input" in item:
