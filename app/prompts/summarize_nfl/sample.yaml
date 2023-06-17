@@ -1,0 +1,38 @@
+input:
+  title:
+    description: 記事タイトルです
+  text:
+    description: 記事の本文です
+output:
+  result:
+    description: |-
+      整理された試合情報で、json形式の文字列です。以下の要素をふくみます。
+      ・title_jp: 記事タイトル(title)を日本語訳したものです
+      ・summary: 記事本文(text)を英語のまま要約したものです
+      ・summary_jp: 記事本文(text)を英語のまま要約したもの(summary)を、日本語訳したものです
+
+samples:
+  - input:
+      title: 2023 'Packers Family Night' set for Saturday, Aug. 5
+      text: |-
+        The Green Bay Packers announced today that 'Packers Family Night, presented by Bellin Health,' will take place Saturday evening, Aug. 5. Now in its 22nd year, 'Family Night' will serve as the introduction of the 2023 Green Bay Packers, in-person to a capacity crowd in Lambeau Field and on television to a state-wide audience.
+
+        Doors for the event will open at 5:30 p.m., with the team taking the field for warmups at 7 p.m. and practice beginning at 7:30.
+
+        The format of this year's Family Night will once again be a full practice, in order for the team to accomplish its preparation goals for the regular season.
+
+        The evening remains family-focused and will feature a game-like atmosphere, featuring a thunderstick giveaway courtesy of Bellin Health, Roundy's and Walbec Group, use of the video boards featuring promotions by Ariens, Brew Pub Pizza and other partners, gameday music and a fireworks show presented by Ticketmaster at the end of the night. Family Night is a part of the Back to Football campaign, presented by Bellin Health. Other components of the campaign include Packers training camp and Packers preseason games.
+
+        Tickets will go on sale Thursday, June 29, at 10 a.m. Tickets again are mobile only and priced at $10, available for purchase solely online through Ticketmaster at Ticketmaster.com. There will be a limit of 10 tickets per purchase during the first day of ticket sales. All individuals, regardless of age, require a ticket for admittance.
+
+        A group ticket program (minimum of 50 tickets) will be offered again. The application form is available online, in person at the Packers ticket office or can be requested to be sent by calling 920/569-7501. Group ticket orders are restricted to approved groups and organizations, and are to be used for the sole purpose of accommodating a group or organizational outing. Resale is prohibited.
+
+        Parking for the event will be $5, with net proceeds to benefit Meijer Simply Give and its mission to support hunger relief efforts. Cash payments will no longer be accepted. Credit cards or mobile payments will be accepted.
+
+        In case of inclement weather, no refunds will be issued unless all stadium activities – from 5:30 p.m. until the end of the fireworks show – are canceled.
+
+        For fans not attending the event, a statewide telecast will be available on various local and Packers TV Network stations. The stations broadcasting the event include WGBA-TV in Green Bay and WTMJ-TV in Milwaukee, as well as WAOW-TV in Wausau, WKOW-TV in Madison, WXOW-TV in La Crosse, WQOW-TV in Eau Claire, KQDS-TV in Duluth-Superior and WLUC-TV in Escanaba-Marquette. The event will also be televised on KWWL-TV and WHBF-TV in Iowa; KATN-TV, KYUR-TV and KJUD-TV in Alaska; and KDLT in Sioux Falls, SD.
+
+        The entire training camp schedule is being finalized and will be released in the near future.
+    output:
+      result: '[{\"title_jp\":\"2023 「パッカーズファミリーナイト」8月5日（土）に開催決定\",\"summary\":\"The Green Bay Packers announced the 22nd Packers Family Night, presented by Bellin Health, to be held on August 5th. This event will introduce the 2023 Green Bay Packers to a full crowd at Lambeau Field and a statewide TV audience. The evening will feature a full practice session for team preparation. Family-oriented activities, giveaways, and a fireworks show will create a game-like atmosphere. Tickets go on sale June 29th for $10 each. Group ticket options are available. Parking is $5, with proceeds supporting hunger relief. The event will be televised across the state. Full training camp schedule to be released soon.\",\"summary_jp\":\"グリーンベイ・パッカーズは、22回目となる「パッカーズファミリーナイト、ベリン・ヘルスプレゼンツ」と題されたイベントを、8月5日に開催することを発表しました。このイベントでは、2023年シーズンのグリーンベイ・パッカーズを、ラムボーオ・フィールドの満員の観客と州全体のテレビ視聴者に向けて紹介します。\nこのイベントでは、レギュラーシーズンに向けたチームの準備を目的として、フルプラクティスが行われます。家族向けの活動やプレゼント、ファイヤーワークスショーなど、ゲームのような雰囲気が演出されます。チケットの販売は6月29日に開始され、1枚10ドルで購入できます。グループチケットのオプションも利用可能です。駐車場の料金は5ドルで、収益は飢餓救済活動を支援します。イベントは州内でテレビ放送されます。詳細なトレーニングキャンプのスケジュールは近日中に発表されます。\"]}]'

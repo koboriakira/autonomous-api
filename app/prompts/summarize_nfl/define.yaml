@@ -1,0 +1,12 @@
+version: 2
+model: "gpt-3.5-turbo-16k-0613"
+# model: "gpt-4"
+max_tokens: 4000
+temperature: 0.3
+timeout: 60
+prompt:
+  title: アメフトのニュース記事を要約するAPI
+  constraint:
+    - 命令に対する返事やjson文字列以外の説明などの出力を禁止します
+    - 選手名やコーチ名などの人名は、英語のまま出力してください
+    -
