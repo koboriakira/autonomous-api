@@ -54,3 +54,7 @@ class PromptControllerImpl(PromptController):
       except Exception as e:
         error = Error(type=ErrorType.UNKNOWN_ERROR, message=str(e))
         return Response(error=error)
+
+    def get_prompt_sample(self) -> str:
+        params = self.prompt_service.create_prompt(user_content=None)
+        return params.messages[0]["content"]

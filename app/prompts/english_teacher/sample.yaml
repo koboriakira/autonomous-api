@@ -1,0 +1,46 @@
+input:
+  title:
+    description: 記事タイトルです。空文字の場合もあります。
+  text:
+    description: 記事の本文です。
+output:
+  result:
+    description: |-
+      整理された教材情報で、json形式の文字列です。以下の要素をふくみます。
+      ・title: 記事タイトル(title)を日本語訳したものです
+      ・summary: 記事の英文を日本語400文字程度で簡単に説明したものです
+      ・dictionary: 記事に出てくる単語のうち内容を理解するために重要なものを、単語とその説明のペアでふくみます
+      ・phrase: 記事に出てくる熟語のうち内容を理解するために重要なものを、熟語とその説明のペアでふくみます
+samples:
+  - input:
+      title: Swiss get behind net-zero climate law
+      text: |
+        The Swiss on Sunday backed a new climate bill aimed at steering their country of melting glaciers towards carbon neutrality by 2050.
+        Leading Swiss glaciologist Matthias Huss, who has closely followed the glaciers' decline, hailed in a tweet the strong signal sent by Sunday's vote, saying he was very happy the arguments of climate science were heard.
+        Socialist Party parliamentarian Valerie Piller Carrard celebrated the vote as an important step for future generations.
+        A full 59.1 percent of voters supported the new law, which will require Switzerland to slash its dependence on imported oil and gas and scale up the development and use of greener and more homegrown alternatives.
+        Voters also backed adopting a global minimum tax rate of 15 percent for multinational corporations in a second referendum, with 78.5 percent in favour.
+        Voter participation in the referendums stood at around 42 percent.
+        Recent opinion polls had indicated strong but slipping support for the climate bill in the context of a campaign around electricity shortages and economic ruin driven by the populist right-wing Swiss People's Party (SVP), the only Swiss party against the climate bill.
+        Supporters said the law was needed to ensure energy security and independence, and to help address the ravages of climate change -- highlighted by the melting of glaciers in the Swiss Alps. They have lost a third of their ice volume between 2001 and 2022.
+        - Climate-friendly alternatives -
+        Energy has long been a tricky issue in Switzerland. It imports around three quarters of its energy, with all the oil and natural gas consumed coming from abroad.
+        Concerns around Switzerland's reliance on external energy sources have been swelling since Russia's invasion of Ukraine threw into doubt Swiss access to much of the foreign energy it uses.
+        Climate activists had initially wanted to push for a total ban on all oil and gas consumption in Switzerland by 2050.
+        But the government baulked at the idea of a ban, drawing up instead a counter-proposal including other elements from the activists' so-called Glacier Initiative.
+        The text promises financial support of two billion Swiss francs ($2.2 billion) over a decade to promote the replacement of gas or oil heating systems with climate-friendly alternatives, as well as aid to push businesses towards green innovation.
+        Nearly all of Switzerland's major parties supported the bill, except the SVP -- the country's largest party -- which triggered the referendum against what it dismissed as the electricity-wasting law.
+        It warned the bill's goal of achieving climate neutrality in just over a quarter-century would effectively mean a fossil fuel ban, which it claims would threaten energy access and send household electricity bills soaring.
+        The SVP voiced disappointment on Sunday, with campaign chief Michael Graber insisting to Swiss daily 20 Minutes that the bill for adopting this law will be presented much later.
+        His colleague Kevin Grangier said the result should not be seen as a failure for the SVP, but rather as a failure for the (Swiss) pocketbook.
+        The SVP, which just two years ago managed to block a similar law that would have curbed greenhouse gas emissions, also highlighted that backing for the new climate bill was uneven.
+        There appeared to be far less support in rural regions -- seven of the 26 cantons voted against the law -- where there are concerns over wind turbines littering landscapes and the impact of dwindling access to fossil fuels on mobility.
+        Support meanwhile was particularly strong in urban areas like Geneva, where nearly 75 percent of voters backed the law.
+        - Corporate tax hike -
+        The backing was far more uniform in the second referendum on hiking the tax rate for large businesses, with all cantons in favour.
+        Finance Minister Karin Keller-Sutter hailed the very strong acceptance rate for the plan to amend the constitution so Switzerland can join the international agreement. The agreement, led by the Organisation for Economic Cooperation and Development (OECD), calls for a global minimum 15 percent tax rate on multinationals.
+        If Switzerland had not joined in, she pointed out, it risked missing out on significant revenues, as other countries could slap the obligatory additional taxes on large corporations based on its soil.
+        Until now, many cantons have imposed some of the lowest corporate tax rates in the world, in what they often said was needed to attract businesses in the face of high wages and location costs.
+        The Swiss government will begin imposing the new tax next year -- and estimates that additional revenues could amount to between 1.0 and 2.5 billion Swiss francs in the first year alone.
+    output: |
+      {\n "title": "スイスが目指すゼロネットクライメート法",\n "summary": "スイスの人々は、2050年までに氷河が溶ける彼らの国を炭素中立に導くための新しい気候法を日曜日に支持しました。この法律では、スイスは輸入された石油とガスへの依存を削減し、より環境にやさしい代替エネルギーの開発と利用を拡大する必要があります。また、多国籍企業に対してグローバル最低税率15%の採用を支持する国際的な合意にも賛成が集まりました。この法律への賛成率は59.1%で、有権者の参加率は約42%でした。スイスの氷河が溶けるという気候変動の被害を受ける中、エネルギーの安全保障と独立を確保するためにこの法律が必要とされました。スイスの主要な政党のほとんどがこの法案を支持しましたが、国内最大の政党であるSVPは反対し、選挙で否決されました。都市部では法案への支持が高く、特にジュネーブでは約75%の支持がありました。一方で、風力タービンの景観への懸念や化石燃料へのアクセスの減少の影響がある地方地域では、反対意見が存在しました。また、大企業の法人税率引き上げについての国民投票も行われ、全州が賛成しました。スイス政府は来年から新たな税金を課し、その追加収入は10億～25億スイスフランになると見積もっています。",\n "dictionary": [\n {\n "word": "climate bill",\n "explanation": "気候法"\n },\n {\n "word": "carbon neutrality",\n "explanation": "炭素中立"\n },\n {\n "word": "glaciologist",\n "explanation": "氷河学者"\n },\n {\n "word": "referendum",\n "explanation": "国民投票"\n },\n {\n "word": "oil and gas",\n "explanation": "石油とガス"\n },\n {\n "word": "alternative energy",\n "explanation": "代替エネルギー"\n },\n {\n "word": "global minimum tax rate",\n "explanation": "グローバル最低税率"\n },\n {\n "word": "multinational corporations",\n "explanation": "多国籍企業"\n },\n {\n "word": "voter participation",\n "explanation": "有権者参加"\n },\n {\n "word": "electricity shortage",\n "explanation": "電力不足"\n },\n {\n "word": "economic ruin",\n "explanation": "経済的破綻"\n },\n {\n "word": "energy security",\n "explanation": "エネルギー安全保障"\n },\n {\n "word": "energy independence",\n "explanation": "エネルギー独立"\n },\n {\n "word": "climate change",\n "explanation": "気候変動"\n },\n {\n "word": "melting of glaciers",\n "explanation": "氷河の融解"\n },\n {\n "word": "total ban",\n "explanation": "完全な禁止"\n },\n {\n "word": "counter-proposal",\n "explanation": "対案"\n },\n {\n "word": "financial support",\n "explanation": "財政支援"\n },\n {\n "word": "oil heating systems",\n "explanation": "オイルヒーティングシステム"\n },\n {\n "word": "green innovation",\n "explanation": "環境イノベーション"\n }\n ],\n "phrase": [\n {\n "phrase": "carbon neutrality",\n "explanation": "炭素中立"\n },\n {\n "phrase": "global minimum tax rate",\n "explanation": "グローバル最低税率"\n },\n {\n "phrase": "climate-friendly alternatives",\n "explanation": "環境にやさしい代替え手段"\n },\n {\n "phrase": "fossil fuel ban",\n "explanation": "化石燃料の禁止"\n },\n {\n "phrase": "wind turbines",\n "explanation": "風力タービン"\n },\n {\n "phrase": "renewable energy",\n "explanation": "再生可能エネルギー"\n },\n {\n "phrase": "urban areas",\n "explanation": "都市部"\n },\n {\n "phrase": "rural regions",\n "explanation": "地方地域"\n },\n {\n "phrase": "corporate tax hike",\n "explanation": "法人税の引き上げ"\n },\n {\n "phrase": "large businesses",\n "explanation": "大企業"\n },\n {\n "phrase": "constitution amendment",\n "explanation": "憲法改正"\n },\n {\n "phrase": "international agreement",\n "explanation": "国際協定"\n },\n {\n "phrase": "additional taxes",\n "explanation": "追加の税金"\n },\n {\n "phrase": "cantons",\n "explanation": "州"\n },\n {\n "phrase": "corporate tax rates",\n "explanation": "法人税率"\n },\n {\n "phrase": "significant revenues",\n "explanation": "莫大な収入"\n },\n {\n "phrase": "location costs",\n "explanation": "立地コスト"\n }\n ]\n}

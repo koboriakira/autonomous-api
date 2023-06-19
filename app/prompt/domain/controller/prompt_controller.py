@@ -7,5 +7,10 @@ class PromptController(metaclass=ABCMeta):
     def handle(self, user_content: Optional[dict] = None) -> Response:
         pass
 
+    @abstractmethod
     async def handle_async(self, user_content: Optional[dict] = None) -> Response:
+        pass
+
+    @abstractmethod
+    def get_prompt_sample(self) -> str:
         pass

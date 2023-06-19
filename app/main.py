@@ -60,6 +60,14 @@ async def command(category: str, request: CommandRequest):
         case _:
             return {"error": "invalid version"}
 
+# プロンプトを取得する
+@app.get("/prompt_sample/{category}/")
+def read_root(category: str):
+    logger.info(f'command: %s' % category)
+    controller: PromptController = PromptControllerImpl(
+        category=category)
+    return controller.get_prompt_sample()
+
 
 async def _execute_api_v1(api: ApiV1, request: CommandRequest):
     if "is_async" in request and request.is_async:
